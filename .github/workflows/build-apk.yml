@@ -14,12 +14,21 @@ jobs:
           java-version: '21'
           distribution: 'temurin'
       - uses: android-actions/setup-android@v3
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Install NPM dependencies
+        run: npm install --legacy-peer-deps
+      - name: Build Web Assets
+        run: npx vite build
+      - name: Sync Capacitor
+        run: npx cap sync android
       - name: Make Gradle executable
         run: chmod +x android/gradlew
       - name: Build Debug APK
         run: |
           cd android
-          ./gradlew assembleDebug --stacktrace
+          ./gradlew assembleDebug --no-daemon
       - uses: actions/upload-artifact@v4
         with:
           name: Nullnotes-app-debug
