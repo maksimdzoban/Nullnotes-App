@@ -1,0 +1,20 @@
+version: '3.8'
+
+services:
+  sync-server:
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    container_name: nullnotes-sync-server
+    restart: unless-stopped
+    ports:
+      - "3001:3001"
+    environment:
+      - PORT=3001
+      - DATABASE_URL=file:/data/nullnotes_sync.db
+      - JWT_SECRET=my_custom_secure_jwt_secret_key_123
+    volumes:
+      - nullnotes_data:/data
+
+volumes:
+  nullnotes_data:
