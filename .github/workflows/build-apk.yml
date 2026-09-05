@@ -16,9 +16,9 @@ jobs:
       - uses: android-actions/setup-android@v3
       - uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 22
       - run: npm install --legacy-peer-deps
-      - run: npm run build
+      - run: npx vite build
       - run: npx cap add android || true
       - run: npx cap sync android
       - run: chmod +x android/gradlew
