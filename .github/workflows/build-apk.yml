@@ -19,10 +19,6 @@ jobs:
           node-version: 22
       - name: Install NPM dependencies
         run: npm install --legacy-peer-deps
-      - name: Build Web Assets
-        run: npx vite build
-      - name: Sync Capacitor
-        run: npx cap sync android
       - name: Make Gradle executable
         run: chmod +x android/gradlew
       - name: Build Debug APK
