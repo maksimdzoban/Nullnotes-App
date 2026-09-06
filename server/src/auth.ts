@@ -1,7 +1,7 @@
 import { Context, Next } from 'hono';
 import jwt from 'jsonwebtoken';
 
-const JWT_SECRET = process.env.JWT_SECRET || 'nullnotes_super_secret_jwt_key_2026';
+const JWT_SECRET = process.env.JWT_SECRET || 'change_this_in_production';
 
 export interface AuthUser {
   id: string;
