@@ -1,5 +1,6 @@
 import React from 'react';
 import { useNotesStore } from '../../store/useNotesStore';
+import { useLanguageStore } from '../../store/useLanguageStore';
 import { 
   Search, 
   Pin, 
@@ -19,18 +20,20 @@ export const NotesList: React.FC = () => {
     activeFilter 
   } = useNotesStore();
 
+  const { t, language } = useLanguageStore();
+
   const getFolderTitle = () => {
     switch (activeFilter.type) {
-      case 'all': return 'Всі нотатки';
-      case 'favorites': return 'Улюблені';
-      case 'pinned': return 'Закріплені';
-      case 'archived': return 'Архів';
+      case 'all': return t.allNotes;
+      case 'favorites': return t.favorites;
+      case 'pinned': return t.pinned;
+      case 'archived': return t.archive;
       case 'folder': {
         const folder = folders.find(f => f.id === activeFilter.folderId);
-        return folder ? folder.name : 'Папка';
+        return folder ? folder.name : t.folders;
       }
       case 'tag': return `#${activeFilter.tag}`;
-      default: return 'Нотатки';
+      default: return t.notesCount;
     }
   };
 
@@ -47,7 +50,7 @@ export const NotesList: React.FC = () => {
     if (isToday) {
       return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
     }
-    return date.toLocaleDateString([], { month: 'short', day: 'numeric' });
+    return date.toLocaleDateString(language === 'uk' ? 'uk-UA' : 'en-US', { month: 'short', day: 'numeric' });
   };
 
   return (
@@ -68,7 +71,7 @@ export const NotesList: React.FC = () => {
             type="text"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            placeholder="Швидкий пошук..."
+            placeholder={t.searchPlaceholder}
             className="w-full bg-[#181b26] border border-slate-700/60 rounded-lg pl-9 pr-3 py-1.5 text-xs text-slate-200 placeholder-slate-500 outline-none focus:border-indigo-500/80 transition"
           />
         </div>
@@ -78,7 +81,7 @@ export const NotesList: React.FC = () => {
         {notes.length === 0 ? (
           <div className="h-40 flex flex-col items-center justify-center text-center p-4 text-slate-600">
             <FileText className="w-8 h-8 mb-2 opacity-50 stroke-[1.5]" />
-            <p className="text-xs">Нотаток не знайдено</p>
+            <p className="text-xs">{t.noNotes}</p>
           </div>
         ) : (
           notes.map((note) => {
@@ -97,7 +100,7 @@ export const NotesList: React.FC = () => {
               >
                 <div className="flex items-start justify-between gap-2 mb-1">
                   <h3 className="text-xs font-semibold truncate flex-1">
-                    {note.title || 'Без назви'}
+                    {note.title || t.untitled}
                   </h3>
                   <div className="flex items-center gap-1 flex-shrink-0">
                     {note.isPinned && <Pin className="w-3 h-3 text-amber-400" />}
@@ -106,7 +109,7 @@ export const NotesList: React.FC = () => {
                 </div>
 
                 <p className="text-[11px] text-slate-500 line-clamp-2 leading-relaxed mb-2">
-                  {note.plainText || 'Порожня нотатка...'}
+                  {note.plainText || t.emptyNote}
                 </p>
 
                 <div className="flex items-center justify-between text-[10px] text-slate-500 pt-1 border-t border-slate-800/40">

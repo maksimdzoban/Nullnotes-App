@@ -2,13 +2,16 @@ import React, { useEffect, useState } from 'react';
 import { useNotesStore } from './store/useNotesStore';
 import { useAuthStore } from './store/useAuthStore';
 import { useAiStore } from './store/useAiStore';
+import { useLanguageStore } from './store/useLanguageStore';
+import { useThemeStore } from './store/useThemeStore';
 import { syncEngine } from './sync/syncEngine';
 import { Sidebar } from './components/sidebar/Sidebar';
 import { NotesList } from './components/notes/NotesList';
 import { Editor } from './components/editor/Editor';
 import { AuthModal } from './components/auth/AuthModal';
 import { AiSettingsModal } from './components/ai/AiSettingsModal';
-import { FileText, Plus, Menu, ArrowLeft, User as UserIcon, Sparkles } from 'lucide-react';
+import { SettingsModal } from './components/settings/SettingsModal';
+import { FileText, Plus, Menu, ArrowLeft, User as UserIcon, Sparkles, Settings } from 'lucide-react';
 
 export const App: React.FC = () => {
   const { 
@@ -23,6 +26,8 @@ export const App: React.FC = () => {
 
   const { token, setIsAuthModalOpen } = useAuthStore();
   const { setIsSettingsOpen } = useAiStore();
+  const { setIsSettingsModalOpen } = useThemeStore();
+  const { t } = useLanguageStore();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   useEffect(() => {
@@ -73,16 +78,23 @@ export const App: React.FC = () => {
             <span className="font-semibold text-sm">Nullnotes</span>
             <div className="flex items-center gap-1.5">
               <button
+                onClick={() => setIsSettingsModalOpen(true)}
+                className="p-1.5 text-slate-400 hover:text-white rounded-lg text-xs"
+                title={t.generalSettings}
+              >
+                <Settings className="w-4 h-4" />
+              </button>
+              <button
                 onClick={() => setIsSettingsOpen(true)}
                 className="p-1.5 text-indigo-400 hover:text-white rounded-lg text-xs"
-                title="Налаштування AI"
+                title={t.aiSettings}
               >
                 <Sparkles className="w-4 h-4" />
               </button>
               <button
                 onClick={() => setIsAuthModalOpen(true)}
                 className="p-1.5 text-slate-400 hover:text-white rounded-lg text-xs"
-                title="Акаунт"
+                title={t.account}
               >
                 <UserIcon className="w-4 h-4" />
               </button>
@@ -112,7 +124,7 @@ export const App: React.FC = () => {
                 className="flex items-center gap-1.5 text-xs text-indigo-400 font-medium py-1"
               >
                 <ArrowLeft className="w-4 h-4" />
-                Назад до списку
+                {t.backToList}
               </button>
             </div>
             <Editor key={activeNote.id} note={activeNote} />
@@ -122,16 +134,16 @@ export const App: React.FC = () => {
             <div className="w-16 h-16 rounded-2xl bg-slate-800/40 border border-slate-700/40 flex items-center justify-center mb-4 text-slate-400 shadow-xl">
               <FileText className="w-8 h-8 stroke-[1.5]" />
             </div>
-            <h2 className="text-lg font-semibold text-slate-300 mb-1">Нотатку не вибрано</h2>
+            <h2 className="text-lg font-semibold text-slate-300 mb-1">{t.noNoteSelected}</h2>
             <p className="text-xs text-slate-500 max-w-sm mb-6">
-              Створіть нову нотатку або оберіть існуючу зі списку ліворуч, щоб розпочати редагування.
+              {t.selectNotePrompt}
             </p>
             <button
               onClick={() => createNote()}
               className="inline-flex items-center gap-2 px-4 py-2 bg-indigo-600 hover:bg-indigo-500 text-white rounded-lg text-xs font-medium transition shadow-lg shadow-indigo-600/20 active:scale-[0.98]"
             >
               <Plus className="w-4 h-4" />
-              Створити нотатку
+              {t.newNote}
             </button>
           </div>
         )}
@@ -140,6 +152,7 @@ export const App: React.FC = () => {
       {/* Global Modals */}
       <AuthModal />
       <AiSettingsModal />
+      <SettingsModal />
     </div>
   );
 };

@@ -3,6 +3,8 @@ import { useNotesStore } from '../../store/useNotesStore';
 import { useAuthStore } from '../../store/useAuthStore';
 import { useSyncStore } from '../../store/useSyncStore';
 import { useAiStore } from '../../store/useAiStore';
+import { useThemeStore } from '../../store/useThemeStore';
+import { useLanguageStore } from '../../store/useLanguageStore';
 import type { ViewFilter } from '../../types';
 import { 
   FileText, 
@@ -44,6 +46,8 @@ export const Sidebar: React.FC<SidebarProps> = ({ onCloseMobile }) => {
   const { user, token, setIsAuthModalOpen } = useAuthStore();
   const { status } = useSyncStore();
   const { setIsSettingsOpen } = useAiStore();
+  const { setIsSettingsModalOpen } = useThemeStore();
+  const { t } = useLanguageStore();
 
   const [isFoldersOpen, setIsFoldersOpen] = useState(true);
   const [isTagsOpen, setIsTagsOpen] = useState(true);
@@ -84,7 +88,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ onCloseMobile }) => {
           className="flex items-center gap-1.5 px-2.5 py-1.5 bg-slate-800/80 hover:bg-slate-700/80 text-slate-300 rounded-lg text-xs font-medium border border-slate-700/50 transition cursor-pointer"
         >
           <CloudOff className="w-3.5 h-3.5 text-slate-400" />
-          <span>Локально</span>
+          <span>{t.syncLocal}</span>
         </button>
       );
     }
@@ -97,7 +101,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ onCloseMobile }) => {
             className="flex items-center gap-1.5 px-2.5 py-1.5 bg-indigo-500/15 text-indigo-300 rounded-lg text-xs font-medium border border-indigo-500/30 transition cursor-pointer"
           >
             <RefreshCw className="w-3.5 h-3.5 animate-spin text-indigo-400" />
-            <span>Синхронізація</span>
+            <span>{t.syncing}</span>
           </button>
         );
       case 'synced':
@@ -107,7 +111,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ onCloseMobile }) => {
             className="flex items-center gap-1.5 px-2.5 py-1.5 bg-emerald-500/15 text-emerald-300 rounded-lg text-xs font-medium border border-emerald-500/30 transition cursor-pointer"
           >
             <Cloud className="w-3.5 h-3.5 text-emerald-400" />
-            <span className="truncate max-w-[80px]">{user?.name || 'Хмара'}</span>
+            <span className="truncate max-w-[80px]">{user?.name || t.syncSynced}</span>
           </button>
         );
       case 'error':
@@ -117,7 +121,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ onCloseMobile }) => {
             className="flex items-center gap-1.5 px-2.5 py-1.5 bg-rose-500/15 text-rose-300 rounded-lg text-xs font-medium border border-rose-500/30 transition cursor-pointer"
           >
             <CloudOff className="w-3.5 h-3.5 text-rose-400" />
-            <span>Помилка</span>
+            <span>{t.syncError}</span>
           </button>
         );
       case 'offline':
@@ -128,7 +132,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ onCloseMobile }) => {
             className="flex items-center gap-1.5 px-2.5 py-1.5 bg-slate-800/80 text-slate-400 rounded-lg text-xs font-medium border border-slate-700/50 transition cursor-pointer"
           >
             <CloudOff className="w-3.5 h-3.5" />
-            <span>Офлайн</span>
+            <span>{t.syncOffline}</span>
           </button>
         );
     }
@@ -164,7 +168,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ onCloseMobile }) => {
           className="w-full flex items-center justify-center gap-2 py-2 px-3 bg-indigo-600 hover:bg-indigo-500 text-white rounded-lg text-sm font-medium transition shadow-md shadow-indigo-600/20 active:scale-[0.98] cursor-pointer"
         >
           <Plus className="w-4 h-4" />
-          Нова нотатка
+          {t.newNote}
         </button>
       </div>
 
@@ -181,7 +185,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ onCloseMobile }) => {
             }`}
           >
             <FileText className="w-4 h-4" />
-            Всі нотатки
+            {t.allNotes}
           </button>
 
           <button
@@ -193,7 +197,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ onCloseMobile }) => {
             }`}
           >
             <Star className="w-4 h-4" />
-            Улюблені
+            {t.favorites}
           </button>
 
           <button
@@ -205,7 +209,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ onCloseMobile }) => {
             }`}
           >
             <Pin className="w-4 h-4" />
-            Закріплені
+            {t.pinned}
           </button>
 
           <button
@@ -217,7 +221,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ onCloseMobile }) => {
             }`}
           >
             <Archive className="w-4 h-4" />
-            Архів
+            {t.archive}
           </button>
         </div>
 
@@ -229,12 +233,12 @@ export const Sidebar: React.FC<SidebarProps> = ({ onCloseMobile }) => {
               className="flex items-center gap-1 hover:text-slate-300 cursor-pointer"
             >
               {isFoldersOpen ? <ChevronDown className="w-3 h-3" /> : <ChevronRight className="w-3 h-3" />}
-              Папки
+              {t.folders}
             </button>
             <button
               onClick={() => setIsCreatingFolder(true)}
               className="p-1 hover:text-indigo-400 hover:bg-slate-800 rounded transition cursor-pointer"
-              title="Створити папку"
+              title={t.createFolder}
             >
               <FolderPlus className="w-3.5 h-3.5" />
             </button>
@@ -253,14 +257,14 @@ export const Sidebar: React.FC<SidebarProps> = ({ onCloseMobile }) => {
                       if (e.key === 'Escape') setIsCreatingFolder(false);
                     }}
                     autoFocus
-                    placeholder="Назва папки..."
+                    placeholder={t.folderNamePlaceholder}
                     className="w-full text-xs px-2 py-1 bg-slate-800 border border-slate-700 rounded text-slate-200 outline-none"
                   />
                 </div>
               )}
 
               {folders.length === 0 && !isCreatingFolder && (
-                <div className="px-3 py-1.5 text-xs text-slate-600 italic">Немає папок</div>
+                <div className="px-3 py-1.5 text-xs text-slate-600 italic">{t.noFolders}</div>
               )}
 
               {folders.map((folder) => (
@@ -280,7 +284,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ onCloseMobile }) => {
                   <button
                     onClick={(e) => {
                       e.stopPropagation();
-                      if (confirm(`Видалити папку "${folder.name}"?`)) {
+                      if (confirm(`${t.deleteFolderConfirm} "${folder.name}"?`)) {
                         deleteFolder(folder.id);
                       }
                     }}
@@ -302,14 +306,14 @@ export const Sidebar: React.FC<SidebarProps> = ({ onCloseMobile }) => {
               className="flex items-center gap-1 hover:text-slate-300 cursor-pointer"
             >
               {isTagsOpen ? <ChevronDown className="w-3 h-3" /> : <ChevronRight className="w-3 h-3" />}
-              Теги
+              {t.tags}
             </button>
           </div>
 
           {isTagsOpen && (
             <div className="space-y-0.5">
               {tags.length === 0 && (
-                <div className="px-3 py-1.5 text-xs text-slate-600 italic">Немає тегів</div>
+                <div className="px-3 py-1.5 text-xs text-slate-600 italic">{t.noTags}</div>
               )}
 
               {tags.map((tag) => (
@@ -329,7 +333,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ onCloseMobile }) => {
                   <button
                     onClick={(e) => {
                       e.stopPropagation();
-                      if (confirm(`Видалити тег "#${tag.name}"?`)) {
+                      if (confirm(`${t.deleteTagConfirm} "#${tag.name}"?`)) {
                         deleteTag(tag.name);
                       }
                     }}
@@ -348,13 +352,24 @@ export const Sidebar: React.FC<SidebarProps> = ({ onCloseMobile }) => {
       <div className="px-3 py-2 border-t border-slate-800/60 space-y-1">
         <button
           onClick={() => {
+            setIsSettingsModalOpen(true);
+            if (onCloseMobile) onCloseMobile();
+          }}
+          className="w-full flex items-center gap-2.5 px-3 py-2 rounded-lg text-xs font-medium text-slate-400 hover:bg-slate-800/50 hover:text-slate-200 transition cursor-pointer"
+        >
+          <Settings className="w-4 h-4 text-indigo-400" />
+          <span>{t.generalSettings}</span>
+        </button>
+
+        <button
+          onClick={() => {
             setIsSettingsOpen(true);
             if (onCloseMobile) onCloseMobile();
           }}
           className="w-full flex items-center gap-2.5 px-3 py-2 rounded-lg text-xs font-medium text-slate-400 hover:bg-slate-800/50 hover:text-slate-200 transition cursor-pointer"
         >
           <Sparkles className="w-4 h-4 text-indigo-400" />
-          <span>Налаштування AI</span>
+          <span>{t.aiSettings}</span>
         </button>
       </div>
 
@@ -364,7 +379,6 @@ export const Sidebar: React.FC<SidebarProps> = ({ onCloseMobile }) => {
           {renderSyncBadge()}
         </div>
         <div className="flex items-center gap-1 text-[11px] text-slate-600">
-          <Settings className="w-3 h-3 text-slate-500" />
           <span>v0.3.0</span>
         </div>
       </div>

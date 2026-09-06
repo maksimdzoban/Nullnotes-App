@@ -5,6 +5,8 @@ import type { Block } from '@blocknote/core';
 import type { Note } from '../../types';
 import { useNotesStore } from '../../store/useNotesStore';
 import { useAiStore } from '../../store/useAiStore';
+import { useLanguageStore } from '../../store/useLanguageStore';
+import { useThemeStore } from '../../store/useThemeStore';
 import { blocksToMarkdown, downloadMarkdownFile } from '../../utils/markdown';
 import { AiModal } from '../ai/AiModal';
 import { AiSettingsModal } from '../ai/AiSettingsModal';
@@ -17,7 +19,8 @@ import {
   Folder as FolderIcon,
   Plus,
   X,
-  Sparkles
+  Sparkles,
+  Image as ImageIcon
 } from 'lucide-react';
 
 interface EditorProps {
@@ -37,11 +40,14 @@ export const Editor: React.FC<EditorProps> = ({ note }) => {
   } = useNotesStore();
 
   const { isAiModalOpen, setIsAiModalOpen } = useAiStore();
+  const { t } = useLanguageStore();
+  const { theme } = useThemeStore();
 
   const [title, setTitle] = useState(note.title);
   const [newTagName, setNewTagName] = useState('');
   const [isTagInputOpen, setIsTagInputOpen] = useState(false);
   const debounceTimerRef = useRef<any>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     setTitle(note.title);
@@ -54,8 +60,29 @@ export const Editor: React.FC<EditorProps> = ({ note }) => {
     return undefined;
   }, [note.id]);
 
+  const handleUploadFile = async (file: File): Promise<string> => {
+    if (file.size > 10 * 1024 * 1024) {
+      alert(t.imageUploadingTooBig);
+      throw new Error('File too large');
+    }
+
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = () => {
+        if (typeof reader.result === 'string') {
+          resolve(reader.result);
+        } else {
+          reject(new Error('Failed to convert file to base64'));
+        }
+      };
+      reader.onerror = () => reject(reader.error);
+      reader.readAsDataURL(file);
+    });
+  };
+
   const editor = useCreateBlockNote({
     initialContent: initialContent,
+    uploadFile: handleUploadFile
   });
 
   const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -64,7 +91,7 @@ export const Editor: React.FC<EditorProps> = ({ note }) => {
 
     if (debounceTimerRef.current) clearTimeout(debounceTimerRef.current);
     debounceTimerRef.current = setTimeout(() => {
-      updateNote(note.id, { title: newTitle || 'Без назви' });
+      updateNote(note.id, { title: newTitle || t.untitled });
     }, 400);
   };
 
@@ -129,18 +156,37 @@ export const Editor: React.FC<EditorProps> = ({ note }) => {
     editor.replaceBlocks(currentBlocks, [summaryHeading, summaryBlock, ...currentBlocks]);
   };
 
+  const handleImagePicker = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file || !editor) return;
+
+    try {
+      const base64Url = await handleUploadFile(file);
+      const imageBlock: any = {
+        type: 'image',
+        props: {
+          url: base64Url,
+          caption: file.name
+        }
+      };
+      editor.insertBlocks([imageBlock], editor.getTextCursorPosition().block, 'after');
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
   return (
-    <div className="flex-1 flex flex-col h-full bg-[#12141c] text-slate-200 overflow-hidden">
-      <div className="flex items-center justify-between px-6 py-3 border-b border-slate-800/80 bg-[#12141c]/80 backdrop-blur z-10">
-        <div className="flex items-center gap-3 text-sm text-slate-400">
-          <div className="flex items-center gap-1.5 bg-slate-800/60 px-2.5 py-1 rounded-md border border-slate-700/50">
+    <div className="flex-1 flex flex-col h-full bg-[var(--bg-primary)] text-[var(--text-primary)] overflow-hidden transition-colors">
+      <div className="flex items-center justify-between px-6 py-3 border-b border-[var(--border-color)] bg-[var(--bg-primary)]/80 backdrop-blur z-10">
+        <div className="flex items-center gap-3 text-sm text-[var(--text-secondary)]">
+          <div className="flex items-center gap-1.5 bg-slate-800/40 px-2.5 py-1 rounded-md border border-slate-700/50">
             <FolderIcon className="w-3.5 h-3.5 text-indigo-400" />
             <select
               value={note.folderId || ''}
               onChange={handleFolderChange}
-              className="bg-transparent text-xs text-slate-300 outline-none cursor-pointer"
+              className="bg-transparent text-xs text-[var(--text-primary)] outline-none cursor-pointer"
             >
-              <option value="" className="bg-slate-900">Без папки</option>
+              <option value="" className="bg-slate-900">{t.folders} (0)</option>
               {folders.map((f) => (
                 <option key={f.id} value={f.id} className="bg-slate-900">
                   {f.name}
@@ -149,25 +195,40 @@ export const Editor: React.FC<EditorProps> = ({ note }) => {
             </select>
           </div>
           
-          <span className="text-xs text-slate-500">
-            Змінено: {new Date(note.updatedAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+          <span className="text-xs opacity-70">
+            {t.lastEdited}: {new Date(note.updatedAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
           </span>
         </div>
 
         <div className="flex items-center gap-1.5">
+          <input
+            type="file"
+            ref={fileInputRef}
+            onChange={handleImagePicker}
+            accept="image/*"
+            className="hidden"
+          />
+          <button
+            onClick={() => fileInputRef.current?.click()}
+            title={t.imageUpload}
+            className="p-2 rounded-md text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-slate-800/40 transition cursor-pointer"
+          >
+            <ImageIcon className="w-4 h-4" />
+          </button>
+
           <button
             onClick={() => setIsAiModalOpen(true)}
             className="flex items-center gap-1.5 py-1.5 px-3 bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-500 hover:to-violet-500 text-white rounded-lg text-xs font-semibold shadow-md shadow-indigo-600/25 transition cursor-pointer active:scale-95 mr-1"
           >
             <Sparkles className="w-3.5 h-3.5" />
-            <span>AI Помічник</span>
+            <span>{t.aiAssistant}</span>
           </button>
 
           <button
             onClick={() => togglePin(note.id)}
-            title={note.isPinned ? "Відкріпити" : "Закріпити"}
-            className={`p-2 rounded-md hover:bg-slate-800 transition cursor-pointer ${
-              note.isPinned ? 'text-amber-400 bg-amber-400/10' : 'text-slate-400'
+            title={note.isPinned ? t.unpinNote : t.pinNote}
+            className={`p-2 rounded-md hover:bg-slate-800/40 transition cursor-pointer ${
+              note.isPinned ? 'text-amber-400 bg-amber-400/10' : 'text-[var(--text-secondary)]'
             }`}
           >
             <Pin className="w-4 h-4" />
@@ -175,9 +236,9 @@ export const Editor: React.FC<EditorProps> = ({ note }) => {
 
           <button
             onClick={() => toggleFavorite(note.id)}
-            title={note.isFavorite ? "Видалити з улюблених" : "Додати в улюблені"}
-            className={`p-2 rounded-md hover:bg-slate-800 transition cursor-pointer ${
-              note.isFavorite ? 'text-yellow-400 bg-yellow-400/10 fill-yellow-400' : 'text-slate-400'
+            title={note.isFavorite ? t.unfavoriteNote : t.favoriteNote}
+            className={`p-2 rounded-md hover:bg-slate-800/40 transition cursor-pointer ${
+              note.isFavorite ? 'text-yellow-400 bg-yellow-400/10 fill-yellow-400' : 'text-[var(--text-secondary)]'
             }`}
           >
             <Star className={`w-4 h-4 ${note.isFavorite ? 'fill-yellow-400' : ''}`} />
@@ -185,17 +246,17 @@ export const Editor: React.FC<EditorProps> = ({ note }) => {
 
           <button
             onClick={handleExportMarkdown}
-            title="Експорт в Markdown"
-            className="p-2 rounded-md text-slate-400 hover:text-slate-200 hover:bg-slate-800 transition cursor-pointer"
+            title={t.exportMarkdown}
+            className="p-2 rounded-md text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-slate-800/40 transition cursor-pointer"
           >
             <Download className="w-4 h-4" />
           </button>
 
           <button
             onClick={() => toggleArchive(note.id)}
-            title={note.isArchived ? "Відновити з архіву" : "В архів"}
-            className={`p-2 rounded-md hover:bg-slate-800 transition cursor-pointer ${
-              note.isArchived ? 'text-indigo-400 bg-indigo-400/10' : 'text-slate-400 hover:text-slate-200'
+            title={note.isArchived ? t.unarchiveNote : t.archiveNote}
+            className={`p-2 rounded-md hover:bg-slate-800/40 transition cursor-pointer ${
+              note.isArchived ? 'text-indigo-400 bg-indigo-400/10' : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
             }`}
           >
             <Archive className="w-4 h-4" />
@@ -203,12 +264,12 @@ export const Editor: React.FC<EditorProps> = ({ note }) => {
 
           <button
             onClick={() => {
-              if (confirm('Видалити цю нотатку назавжди?')) {
+              if (confirm(`${t.deletePermanently}?`)) {
                 deleteNote(note.id);
               }
             }}
-            title="Видалити"
-            className="p-2 rounded-md text-slate-400 hover:text-rose-400 hover:bg-rose-500/10 transition cursor-pointer"
+            title={t.deleteNote}
+            className="p-2 rounded-md text-[var(--text-secondary)] hover:text-rose-400 hover:bg-rose-500/10 transition cursor-pointer"
           >
             <Trash2 className="w-4 h-4" />
           </button>
@@ -220,8 +281,8 @@ export const Editor: React.FC<EditorProps> = ({ note }) => {
           type="text"
           value={title}
           onChange={handleTitleChange}
-          placeholder="Заголовок нотатки..."
-          className="w-full text-3xl md:text-4xl font-bold bg-transparent outline-none text-slate-100 placeholder-slate-600 mb-4"
+          placeholder={t.untitled}
+          className="w-full text-3xl md:text-4xl font-bold bg-transparent outline-none text-[var(--text-primary)] placeholder-slate-600 mb-4"
         />
 
         <div className="flex flex-wrap items-center gap-2 mb-6">
@@ -267,15 +328,15 @@ export const Editor: React.FC<EditorProps> = ({ note }) => {
               className="inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs text-slate-400 hover:text-slate-200 hover:bg-slate-800/60 border border-dashed border-slate-700 transition cursor-pointer"
             >
               <Plus className="w-3 h-3" />
-              Тег
+              {t.addTagPlaceholder}
             </button>
           )}
         </div>
 
-        <div className="min-h-[400px] text-slate-200 blocknote-dark-theme">
+        <div className={`min-h-[400px] text-[var(--text-primary)] ${theme === 'light' || theme === 'sepia' ? 'blocknote-light-theme' : 'blocknote-dark-theme'}`}>
           <BlockNoteView
             editor={editor}
-            theme="dark"
+            theme={theme === 'light' || theme === 'sepia' ? 'light' : 'dark'}
             onChange={handleEditorChange}
           />
         </div>

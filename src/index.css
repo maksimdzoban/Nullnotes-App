@@ -3,8 +3,51 @@
 @import "@blocknote/mantine/style.css";
 
 :root {
-  color-scheme: light dark;
+  color-scheme: dark;
+  --bg-primary: #0f1117;
+  --bg-secondary: #161922;
+  --bg-sidebar: #0d0f15;
+  --border-color: rgba(51, 65, 85, 0.4);
+  --text-primary: #f1f5f9;
+  --text-secondary: #94a3b8;
+  --accent-color: #6366f1;
 }
+
+[data-theme="oled"] {
+  color-scheme: dark;
+  --bg-primary: #000000;
+  --bg-secondary: #0a0a0a;
+  --bg-sidebar: #000000;
+  --border-color: rgba(38, 38, 38, 0.8);
+  --text-primary: #ffffff;
+  --text-secondary: #a3a3a3;
+}
+
+[data-theme="light"] {
+  color-scheme: light;
+  --bg-primary: #ffffff;
+  --bg-secondary: #f8fafc;
+  --bg-sidebar: #f1f5f9;
+  --border-color: rgba(226, 232, 240, 0.8);
+  --text-primary: #0f172a;
+  --text-secondary: #64748b;
+}
+
+[data-theme="sepia"] {
+  color-scheme: light;
+  --bg-primary: #fbf0d9;
+  --bg-secondary: #f4e4c1;
+  --bg-sidebar: #ebd8af;
+  --border-color: rgba(212, 191, 147, 0.6);
+  --text-primary: #433422;
+  --text-secondary: #78644e;
+}
+
+[data-accent="emerald"] { --accent-color: #10b981; }
+[data-accent="amber"] { --accent-color: #f59e0b; }
+[data-accent="rose"] { --accent-color: #f43f5e; }
+[data-accent="sky"] { --accent-color: #0ea5e9; }
+[data-accent="indigo"] { --accent-color: #6366f1; }
 
 body {
   margin: 0;
@@ -12,8 +55,9 @@ body {
   overflow: hidden;
   user-select: none;
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  background-color: #0f1117;
-  color: #e2e8f0;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  transition: background-color 0.2s ease, color 0.2s ease;
 }
 
 /* Custom scrollbars */
@@ -34,4 +78,3 @@ body {
 ::-webkit-scrollbar-thumb:hover {
   background: rgba(148, 163, 184, 0.4);
 }
-
