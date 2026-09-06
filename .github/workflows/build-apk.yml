@@ -1,4 +1,4 @@
-﻿name: Build Android APK
+name: Build Android APK
 on:
   push:
     branches:
@@ -16,20 +16,22 @@ jobs:
       - uses: android-actions/setup-android@v3
         with:
           packages: 'platforms;android-36 build-tools;36.0.0'
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@4
         with:
           node-version: 22
       - name: Install NPM dependencies
-        run: npm install --legacy-peer-deps
-      - name: Sync Capacitor Android
-        run: npx cap sync android
+        run: npm install --legacy-peer-deps --no-audit
+      - name: Build web dist
+        run: npx vite build
+      - name: Add & Sync Capacitor Android
+        run: npx cap add android || true && npx cap sync android
       - name: Make Gradle executable
         run: chmod +x android/gradlew
       - name: Build Debug APK
         run: |
           cd android
           ./gradlew assembleDebug --no-daemon
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@
         with:
           name: Nullnotes-app-debug
           path: android/app/build/outputs/apk/debug/app-debug.apk
