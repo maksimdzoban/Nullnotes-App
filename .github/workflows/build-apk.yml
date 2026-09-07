@@ -25,6 +25,11 @@ jobs:
         run: npx vite build
       - name: Add & Sync Capacitor Android
         run: npx cap add android || true && npx cap sync android
+      - name: Configure Android Signing and Keystore
+        run: node scripts/configure-android-signing.js
+        env:
+          GITHUB_RUN_NUMBER: ${{ github.run_number }}
+          APP_VERSION: '0.3.0'
       - name: Make Gradle executable
         run: chmod +x android/gradlew
       - name: Build Debug APK
