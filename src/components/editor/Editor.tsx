@@ -176,26 +176,26 @@ export const Editor: React.FC<EditorProps> = ({ note }) => {
   };
 
   return (
-    <div className="flex-1 flex flex-col h-full bg-[var(--bg-primary)] text-[var(--text-primary)] overflow-hidden transition-colors">
-      <div className="flex items-center justify-between px-6 py-3 border-b border-[var(--border-color)] bg-[var(--bg-primary)]/80 backdrop-blur z-10">
-        <div className="flex items-center gap-3 text-sm text-[var(--text-secondary)]">
-          <div className="flex items-center gap-1.5 bg-slate-800/40 px-2.5 py-1 rounded-md border border-slate-700/50">
-            <FolderIcon className="w-3.5 h-3.5 text-indigo-400" />
+    <div className="flex-1 flex flex-col h-full bg-theme-primary text-theme-primary overflow-hidden transition-colors">
+      <div className="flex items-center justify-between px-6 py-3 border-b border-theme bg-theme-primary/80 backdrop-blur z-10">
+        <div className="flex items-center gap-3 text-sm text-theme-secondary">
+          <div className="flex items-center gap-1.5 bg-theme-hover px-2.5 py-1 rounded-md border border-theme">
+            <FolderIcon className="w-3.5 h-3.5 text-theme-accent" />
             <select
               value={note.folderId || ''}
               onChange={handleFolderChange}
-              className="bg-transparent text-xs text-[var(--text-primary)] outline-none cursor-pointer"
+              className="bg-transparent text-xs text-theme-primary outline-none cursor-pointer"
             >
-              <option value="" className="bg-slate-900">{t.folders} (0)</option>
+              <option value="" className="bg-theme-card text-theme-primary">{t.folders} (0)</option>
               {folders.map((f) => (
-                <option key={f.id} value={f.id} className="bg-slate-900">
+                <option key={f.id} value={f.id} className="bg-theme-card text-theme-primary">
                   {f.name}
                 </option>
               ))}
             </select>
           </div>
           
-          <span className="text-xs opacity-70">
+          <span className="text-xs text-theme-muted">
             {t.lastEdited}: {new Date(note.updatedAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
           </span>
         </div>
@@ -211,14 +211,14 @@ export const Editor: React.FC<EditorProps> = ({ note }) => {
           <button
             onClick={() => fileInputRef.current?.click()}
             title={t.imageUpload}
-            className="p-2 rounded-md text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-slate-800/40 transition cursor-pointer"
+            className="p-2 rounded-md text-theme-secondary hover:text-theme-primary hover:bg-theme-hover transition cursor-pointer"
           >
             <ImageIcon className="w-4 h-4" />
           </button>
 
           <button
             onClick={() => setIsAiModalOpen(true)}
-            className="flex items-center gap-1.5 py-1.5 px-3 bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-500 hover:to-violet-500 text-white rounded-lg text-xs font-semibold shadow-md shadow-indigo-600/25 transition cursor-pointer active:scale-95 mr-1"
+            className="flex items-center gap-1.5 py-1.5 px-3 bg-theme-accent hover:opacity-90 text-white rounded-lg text-xs font-semibold shadow-md transition cursor-pointer active:scale-95 mr-1"
           >
             <Sparkles className="w-3.5 h-3.5" />
             <span>{t.aiAssistant}</span>
@@ -227,8 +227,8 @@ export const Editor: React.FC<EditorProps> = ({ note }) => {
           <button
             onClick={() => togglePin(note.id)}
             title={note.isPinned ? t.unpinNote : t.pinNote}
-            className={`p-2 rounded-md hover:bg-slate-800/40 transition cursor-pointer ${
-              note.isPinned ? 'text-amber-400 bg-amber-400/10' : 'text-[var(--text-secondary)]'
+            className={`p-2 rounded-md hover:bg-theme-hover transition cursor-pointer ${
+              note.isPinned ? 'text-amber-500 bg-amber-500/10' : 'text-theme-secondary'
             }`}
           >
             <Pin className="w-4 h-4" />
@@ -237,17 +237,17 @@ export const Editor: React.FC<EditorProps> = ({ note }) => {
           <button
             onClick={() => toggleFavorite(note.id)}
             title={note.isFavorite ? t.unfavoriteNote : t.favoriteNote}
-            className={`p-2 rounded-md hover:bg-slate-800/40 transition cursor-pointer ${
-              note.isFavorite ? 'text-yellow-400 bg-yellow-400/10 fill-yellow-400' : 'text-[var(--text-secondary)]'
+            className={`p-2 rounded-md hover:bg-theme-hover transition cursor-pointer ${
+              note.isFavorite ? 'text-yellow-500 bg-yellow-500/10 fill-yellow-500' : 'text-theme-secondary'
             }`}
           >
-            <Star className={`w-4 h-4 ${note.isFavorite ? 'fill-yellow-400' : ''}`} />
+            <Star className={`w-4 h-4 ${note.isFavorite ? 'fill-yellow-500' : ''}`} />
           </button>
 
           <button
             onClick={handleExportMarkdown}
             title={t.exportMarkdown}
-            className="p-2 rounded-md text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-slate-800/40 transition cursor-pointer"
+            className="p-2 rounded-md text-theme-secondary hover:text-theme-primary hover:bg-theme-hover transition cursor-pointer"
           >
             <Download className="w-4 h-4" />
           </button>
@@ -255,8 +255,8 @@ export const Editor: React.FC<EditorProps> = ({ note }) => {
           <button
             onClick={() => toggleArchive(note.id)}
             title={note.isArchived ? t.unarchiveNote : t.archiveNote}
-            className={`p-2 rounded-md hover:bg-slate-800/40 transition cursor-pointer ${
-              note.isArchived ? 'text-indigo-400 bg-indigo-400/10' : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
+            className={`p-2 rounded-md hover:bg-theme-hover transition cursor-pointer ${
+              note.isArchived ? 'text-theme-accent bg-theme-accent-light' : 'text-theme-secondary hover:text-theme-primary'
             }`}
           >
             <Archive className="w-4 h-4" />
@@ -269,7 +269,7 @@ export const Editor: React.FC<EditorProps> = ({ note }) => {
               }
             }}
             title={t.deleteNote}
-            className="p-2 rounded-md text-[var(--text-secondary)] hover:text-rose-400 hover:bg-rose-500/10 transition cursor-pointer"
+            className="p-2 rounded-md text-theme-secondary hover:text-rose-400 hover:bg-rose-500/10 transition cursor-pointer"
           >
             <Trash2 className="w-4 h-4" />
           </button>
@@ -282,14 +282,14 @@ export const Editor: React.FC<EditorProps> = ({ note }) => {
           value={title}
           onChange={handleTitleChange}
           placeholder={t.untitled}
-          className="w-full text-3xl md:text-4xl font-bold bg-transparent outline-none text-[var(--text-primary)] placeholder-slate-600 mb-4"
+          className="w-full text-3xl md:text-4xl font-bold bg-transparent outline-none text-theme-primary placeholder:text-theme-muted mb-4"
         />
 
         <div className="flex flex-wrap items-center gap-2 mb-6">
           {note.tags.map((tag) => (
             <span
               key={tag}
-              className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium bg-indigo-500/15 text-indigo-300 border border-indigo-500/30"
+              className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium bg-theme-accent-light text-theme-accent border border-theme-accent"
             >
               #{tag}
               <button
@@ -313,11 +313,11 @@ export const Editor: React.FC<EditorProps> = ({ note }) => {
                 }}
                 autoFocus
                 placeholder="тег..."
-                className="px-2 py-0.5 text-xs bg-slate-800 border border-slate-700 rounded text-slate-200 outline-none w-24"
+                className="px-2 py-0.5 text-xs bg-theme-input border border-theme rounded text-theme-primary outline-none w-24"
               />
               <button
                 onClick={() => handleAddTag(newTagName)}
-                className="p-1 hover:text-indigo-400 text-slate-400 cursor-pointer"
+                className="p-1 hover:text-theme-accent text-theme-muted cursor-pointer"
               >
                 <Plus className="w-3.5 h-3.5" />
               </button>
@@ -325,7 +325,7 @@ export const Editor: React.FC<EditorProps> = ({ note }) => {
           ) : (
             <button
               onClick={() => setIsTagInputOpen(true)}
-              className="inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs text-slate-400 hover:text-slate-200 hover:bg-slate-800/60 border border-dashed border-slate-700 transition cursor-pointer"
+              className="inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs text-theme-muted hover:text-theme-primary hover:bg-theme-hover border border-dashed border-theme transition cursor-pointer"
             >
               <Plus className="w-3 h-3" />
               {t.addTagPlaceholder}
@@ -333,7 +333,7 @@ export const Editor: React.FC<EditorProps> = ({ note }) => {
           )}
         </div>
 
-        <div className={`min-h-[400px] text-[var(--text-primary)] ${theme === 'light' || theme === 'sepia' ? 'blocknote-light-theme' : 'blocknote-dark-theme'}`}>
+        <div className={`min-h-[400px] text-theme-primary ${theme === 'light' || theme === 'sepia' ? 'blocknote-light-theme' : 'blocknote-dark-theme'}`}>
           <BlockNoteView
             editor={editor}
             theme={theme === 'light' || theme === 'sepia' ? 'light' : 'dark'}

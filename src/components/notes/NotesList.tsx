@@ -54,32 +54,32 @@ export const NotesList: React.FC = () => {
   };
 
   return (
-    <div className="w-full md:w-80 bg-[#10121a] border-r border-slate-800/80 flex flex-col h-full select-none">
-      <div className="p-4 border-b border-slate-800/60 space-y-3">
+    <div className="w-full md:w-80 bg-theme-secondary border-r border-theme flex flex-col h-full select-none text-theme-primary">
+      <div className="p-4 border-b border-theme space-y-3">
         <div className="flex items-center justify-between">
-          <h2 className="text-base font-semibold text-slate-100 flex items-center gap-2">
+          <h2 className="text-base font-semibold text-theme-primary flex items-center gap-2">
             {getFolderTitle()}
-            <span className="text-xs font-normal text-slate-500 bg-slate-800 px-2 py-0.5 rounded-full">
+            <span className="text-xs font-normal text-theme-muted bg-theme-hover px-2 py-0.5 rounded-full border border-theme">
               {notes.length}
             </span>
           </h2>
         </div>
 
         <div className="relative">
-          <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-slate-500" />
+          <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-theme-muted" />
           <input
             type="text"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder={t.searchPlaceholder}
-            className="w-full bg-[#181b26] border border-slate-700/60 rounded-lg pl-9 pr-3 py-1.5 text-xs text-slate-200 placeholder-slate-500 outline-none focus:border-indigo-500/80 transition"
+            className="w-full bg-theme-input border border-theme rounded-lg pl-9 pr-3 py-1.5 text-xs text-theme-primary placeholder:text-theme-muted outline-none focus:border-theme-accent transition"
           />
         </div>
       </div>
 
       <div className="flex-1 overflow-y-auto p-2 space-y-1">
         {notes.length === 0 ? (
-          <div className="h-40 flex flex-col items-center justify-center text-center p-4 text-slate-600">
+          <div className="h-40 flex flex-col items-center justify-center text-center p-4 text-theme-muted">
             <FileText className="w-8 h-8 mb-2 opacity-50 stroke-[1.5]" />
             <p className="text-xs">{t.noNotes}</p>
           </div>
@@ -94,34 +94,34 @@ export const NotesList: React.FC = () => {
                 onClick={() => setActiveNoteId(note.id)}
                 className={`p-3 rounded-lg cursor-pointer transition-all border ${
                   isSelected
-                    ? 'bg-indigo-600/10 border-indigo-500/30 text-slate-100'
-                    : 'bg-[#141722]/50 border-slate-800/50 hover:bg-[#181b27] hover:border-slate-700/50 text-slate-300'
+                    ? 'bg-theme-accent-light border-theme-accent text-theme-primary shadow-xs'
+                    : 'bg-theme-card border-theme-subtle hover:bg-theme-hover hover:border-theme text-theme-secondary'
                 }`}
               >
                 <div className="flex items-start justify-between gap-2 mb-1">
-                  <h3 className="text-xs font-semibold truncate flex-1">
+                  <h3 className="text-xs font-semibold truncate flex-1 text-theme-primary">
                     {note.title || t.untitled}
                   </h3>
                   <div className="flex items-center gap-1 flex-shrink-0">
-                    {note.isPinned && <Pin className="w-3 h-3 text-amber-400" />}
-                    {note.isFavorite && <Star className="w-3 h-3 text-yellow-400 fill-yellow-400" />}
+                    {note.isPinned && <Pin className="w-3 h-3 text-amber-500" />}
+                    {note.isFavorite && <Star className="w-3 h-3 text-yellow-500 fill-yellow-500" />}
                   </div>
                 </div>
 
-                <p className="text-[11px] text-slate-500 line-clamp-2 leading-relaxed mb-2">
+                <p className="text-[11px] text-theme-muted line-clamp-2 leading-relaxed mb-2">
                   {note.plainText || t.emptyNote}
                 </p>
 
-                <div className="flex items-center justify-between text-[10px] text-slate-500 pt-1 border-t border-slate-800/40">
+                <div className="flex items-center justify-between text-[10px] text-theme-muted pt-1 border-t border-theme-subtle">
                   <div className="flex items-center gap-2 truncate">
                     {folderName && (
-                      <span className="flex items-center gap-1 text-slate-400 truncate">
+                      <span className="flex items-center gap-1 text-theme-secondary truncate">
                         <FolderIcon className="w-2.5 h-2.5" />
                         {folderName}
                       </span>
                     )}
                     {note.tags.length > 0 && (
-                      <span className="text-indigo-400 font-medium truncate">
+                      <span className="text-theme-accent font-medium truncate">
                         #{note.tags[0]}
                         {note.tags.length > 1 ? ` +${note.tags.length - 1}` : ''}
                       </span>

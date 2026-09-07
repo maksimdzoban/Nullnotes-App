@@ -85,9 +85,9 @@ export const Sidebar: React.FC<SidebarProps> = ({ onCloseMobile }) => {
       return (
         <button
           onClick={() => setIsAuthModalOpen(true)}
-          className="flex items-center gap-1.5 px-2.5 py-1.5 bg-slate-800/80 hover:bg-slate-700/80 text-slate-300 rounded-lg text-xs font-medium border border-slate-700/50 transition cursor-pointer"
+          className="flex items-center gap-1.5 px-2.5 py-1.5 bg-theme-hover hover:opacity-80 text-theme-secondary rounded-lg text-xs font-medium border border-theme transition cursor-pointer"
         >
-          <CloudOff className="w-3.5 h-3.5 text-slate-400" />
+          <CloudOff className="w-3.5 h-3.5 text-theme-muted" />
           <span>{t.syncLocal}</span>
         </button>
       );
@@ -98,9 +98,9 @@ export const Sidebar: React.FC<SidebarProps> = ({ onCloseMobile }) => {
         return (
           <button
             onClick={() => setIsAuthModalOpen(true)}
-            className="flex items-center gap-1.5 px-2.5 py-1.5 bg-indigo-500/15 text-indigo-300 rounded-lg text-xs font-medium border border-indigo-500/30 transition cursor-pointer"
+            className="flex items-center gap-1.5 px-2.5 py-1.5 bg-theme-accent-light text-theme-accent rounded-lg text-xs font-medium border border-theme transition cursor-pointer"
           >
-            <RefreshCw className="w-3.5 h-3.5 animate-spin text-indigo-400" />
+            <RefreshCw className="w-3.5 h-3.5 animate-spin text-theme-accent" />
             <span>{t.syncing}</span>
           </button>
         );
@@ -108,7 +108,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ onCloseMobile }) => {
         return (
           <button
             onClick={() => setIsAuthModalOpen(true)}
-            className="flex items-center gap-1.5 px-2.5 py-1.5 bg-emerald-500/15 text-emerald-300 rounded-lg text-xs font-medium border border-emerald-500/30 transition cursor-pointer"
+            className="flex items-center gap-1.5 px-2.5 py-1.5 bg-emerald-500/15 text-emerald-400 rounded-lg text-xs font-medium border border-emerald-500/30 transition cursor-pointer"
           >
             <Cloud className="w-3.5 h-3.5 text-emerald-400" />
             <span className="truncate max-w-[80px]">{user?.name || t.syncSynced}</span>
@@ -118,7 +118,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ onCloseMobile }) => {
         return (
           <button
             onClick={() => setIsAuthModalOpen(true)}
-            className="flex items-center gap-1.5 px-2.5 py-1.5 bg-rose-500/15 text-rose-300 rounded-lg text-xs font-medium border border-rose-500/30 transition cursor-pointer"
+            className="flex items-center gap-1.5 px-2.5 py-1.5 bg-rose-500/15 text-rose-400 rounded-lg text-xs font-medium border border-rose-500/30 transition cursor-pointer"
           >
             <CloudOff className="w-3.5 h-3.5 text-rose-400" />
             <span>{t.syncError}</span>
@@ -129,7 +129,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ onCloseMobile }) => {
         return (
           <button
             onClick={() => setIsAuthModalOpen(true)}
-            className="flex items-center gap-1.5 px-2.5 py-1.5 bg-slate-800/80 text-slate-400 rounded-lg text-xs font-medium border border-slate-700/50 transition cursor-pointer"
+            className="flex items-center gap-1.5 px-2.5 py-1.5 bg-theme-hover text-theme-muted rounded-lg text-xs font-medium border border-theme transition cursor-pointer"
           >
             <CloudOff className="w-3.5 h-3.5" />
             <span>{t.syncOffline}</span>
@@ -139,20 +139,20 @@ export const Sidebar: React.FC<SidebarProps> = ({ onCloseMobile }) => {
   };
 
   return (
-    <aside className="w-64 bg-[#0d0f15] border-r border-slate-800/80 flex flex-col h-full select-none text-slate-300">
+    <aside className="w-64 bg-theme-sidebar border-r border-theme flex flex-col h-full select-none text-theme-secondary">
       {/* Header / Brand */}
-      <div className="p-4 flex items-center justify-between border-b border-slate-800/60">
+      <div className="p-4 flex items-center justify-between border-b border-theme">
         <div className="flex items-center gap-2.5">
-          <div className="w-8 h-8 rounded-lg bg-gradient-to-tr from-indigo-600 to-violet-500 flex items-center justify-center text-white font-bold shadow-lg shadow-indigo-500/20">
+          <div className="w-8 h-8 rounded-lg bg-theme-accent flex items-center justify-center text-white font-bold shadow-lg shadow-black/10">
             N
           </div>
           <div>
-            <h1 className="font-semibold text-sm text-slate-100 leading-none">Nullnotes</h1>
-            <span className="text-[10px] text-slate-500 font-medium">Local-first Workspace</span>
+            <h1 className="font-semibold text-sm text-theme-primary leading-none">Nullnotes</h1>
+            <span className="text-[10px] text-theme-muted font-medium">Local-first Workspace</span>
           </div>
         </div>
         {onCloseMobile && (
-          <button onClick={onCloseMobile} className="md:hidden p-1 text-slate-400 hover:text-white">
+          <button onClick={onCloseMobile} className="md:hidden p-1 text-theme-muted hover:text-theme-primary">
             <X className="w-5 h-5" />
           </button>
         )}
@@ -165,7 +165,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ onCloseMobile }) => {
             createNote();
             if (onCloseMobile) onCloseMobile();
           }}
-          className="w-full flex items-center justify-center gap-2 py-2 px-3 bg-indigo-600 hover:bg-indigo-500 text-white rounded-lg text-sm font-medium transition shadow-md shadow-indigo-600/20 active:scale-[0.98] cursor-pointer"
+          className="w-full flex items-center justify-center gap-2 py-2 px-3 bg-theme-accent hover:opacity-90 text-white rounded-lg text-sm font-medium transition shadow-md active:scale-[0.98] cursor-pointer"
         >
           <Plus className="w-4 h-4" />
           {t.newNote}
@@ -180,8 +180,8 @@ export const Sidebar: React.FC<SidebarProps> = ({ onCloseMobile }) => {
             onClick={() => handleFilterClick({ type: 'all' })}
             className={`w-full flex items-center gap-2.5 px-3 py-2 rounded-lg text-xs font-medium transition cursor-pointer ${
               isSelected({ type: 'all' })
-                ? 'bg-indigo-600/15 text-indigo-400 font-semibold'
-                : 'text-slate-400 hover:bg-slate-800/50 hover:text-slate-200'
+                ? 'bg-theme-accent-light text-theme-accent font-semibold'
+                : 'text-theme-secondary hover:bg-theme-hover hover:text-theme-primary'
             }`}
           >
             <FileText className="w-4 h-4" />
@@ -192,8 +192,8 @@ export const Sidebar: React.FC<SidebarProps> = ({ onCloseMobile }) => {
             onClick={() => handleFilterClick({ type: 'favorites' })}
             className={`w-full flex items-center gap-2.5 px-3 py-2 rounded-lg text-xs font-medium transition cursor-pointer ${
               isSelected({ type: 'favorites' })
-                ? 'bg-yellow-500/15 text-yellow-400 font-semibold'
-                : 'text-slate-400 hover:bg-slate-800/50 hover:text-slate-200'
+                ? 'bg-yellow-500/15 text-yellow-500 font-semibold'
+                : 'text-theme-secondary hover:bg-theme-hover hover:text-theme-primary'
             }`}
           >
             <Star className="w-4 h-4" />
@@ -204,8 +204,8 @@ export const Sidebar: React.FC<SidebarProps> = ({ onCloseMobile }) => {
             onClick={() => handleFilterClick({ type: 'pinned' })}
             className={`w-full flex items-center gap-2.5 px-3 py-2 rounded-lg text-xs font-medium transition cursor-pointer ${
               isSelected({ type: 'pinned' })
-                ? 'bg-amber-500/15 text-amber-400 font-semibold'
-                : 'text-slate-400 hover:bg-slate-800/50 hover:text-slate-200'
+                ? 'bg-amber-500/15 text-amber-500 font-semibold'
+                : 'text-theme-secondary hover:bg-theme-hover hover:text-theme-primary'
             }`}
           >
             <Pin className="w-4 h-4" />
@@ -216,8 +216,8 @@ export const Sidebar: React.FC<SidebarProps> = ({ onCloseMobile }) => {
             onClick={() => handleFilterClick({ type: 'archived' })}
             className={`w-full flex items-center gap-2.5 px-3 py-2 rounded-lg text-xs font-medium transition cursor-pointer ${
               isSelected({ type: 'archived' })
-                ? 'bg-slate-800 text-slate-200 font-semibold'
-                : 'text-slate-400 hover:bg-slate-800/50 hover:text-slate-200'
+                ? 'bg-theme-hover text-theme-primary font-semibold'
+                : 'text-theme-secondary hover:bg-theme-hover hover:text-theme-primary'
             }`}
           >
             <Archive className="w-4 h-4" />
@@ -227,17 +227,17 @@ export const Sidebar: React.FC<SidebarProps> = ({ onCloseMobile }) => {
 
         {/* Folders Section */}
         <div>
-          <div className="flex items-center justify-between px-2 mb-1.5 text-[11px] font-semibold text-slate-500 uppercase tracking-wider">
+          <div className="flex items-center justify-between px-2 mb-1.5 text-[11px] font-semibold text-theme-muted uppercase tracking-wider">
             <button
               onClick={() => setIsFoldersOpen(!isFoldersOpen)}
-              className="flex items-center gap-1 hover:text-slate-300 cursor-pointer"
+              className="flex items-center gap-1 hover:text-theme-primary cursor-pointer"
             >
               {isFoldersOpen ? <ChevronDown className="w-3 h-3" /> : <ChevronRight className="w-3 h-3" />}
               {t.folders}
             </button>
             <button
               onClick={() => setIsCreatingFolder(true)}
-              className="p-1 hover:text-indigo-400 hover:bg-slate-800 rounded transition cursor-pointer"
+              className="p-1 hover:text-theme-accent hover:bg-theme-hover rounded transition cursor-pointer"
               title={t.createFolder}
             >
               <FolderPlus className="w-3.5 h-3.5" />
@@ -258,13 +258,13 @@ export const Sidebar: React.FC<SidebarProps> = ({ onCloseMobile }) => {
                     }}
                     autoFocus
                     placeholder={t.folderNamePlaceholder}
-                    className="w-full text-xs px-2 py-1 bg-slate-800 border border-slate-700 rounded text-slate-200 outline-none"
+                    className="w-full text-xs px-2 py-1 bg-theme-input border border-theme rounded text-theme-primary outline-none"
                   />
                 </div>
               )}
 
               {folders.length === 0 && !isCreatingFolder && (
-                <div className="px-3 py-1.5 text-xs text-slate-600 italic">{t.noFolders}</div>
+                <div className="px-3 py-1.5 text-xs text-theme-muted italic">{t.noFolders}</div>
               )}
 
               {folders.map((folder) => (
@@ -272,8 +272,8 @@ export const Sidebar: React.FC<SidebarProps> = ({ onCloseMobile }) => {
                   key={folder.id}
                   className={`group flex items-center justify-between px-3 py-1.5 rounded-lg text-xs font-medium cursor-pointer transition ${
                     isSelected({ type: 'folder', folderId: folder.id })
-                      ? 'bg-indigo-600/15 text-indigo-400 font-semibold'
-                      : 'text-slate-400 hover:bg-slate-800/50 hover:text-slate-200'
+                      ? 'bg-theme-accent-light text-theme-accent font-semibold'
+                      : 'text-theme-secondary hover:bg-theme-hover hover:text-theme-primary'
                   }`}
                   onClick={() => handleFilterClick({ type: 'folder', folderId: folder.id })}
                 >
@@ -288,7 +288,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ onCloseMobile }) => {
                         deleteFolder(folder.id);
                       }
                     }}
-                    className="opacity-0 group-hover:opacity-100 p-1 text-slate-500 hover:text-rose-400 transition cursor-pointer"
+                    className="opacity-0 group-hover:opacity-100 p-1 text-theme-muted hover:text-rose-400 transition cursor-pointer"
                   >
                     <Trash2 className="w-3 h-3" />
                   </button>
@@ -300,10 +300,10 @@ export const Sidebar: React.FC<SidebarProps> = ({ onCloseMobile }) => {
 
         {/* Tags Section */}
         <div>
-          <div className="flex items-center justify-between px-2 mb-1.5 text-[11px] font-semibold text-slate-500 uppercase tracking-wider">
+          <div className="flex items-center justify-between px-2 mb-1.5 text-[11px] font-semibold text-theme-muted uppercase tracking-wider">
             <button
               onClick={() => setIsTagsOpen(!isTagsOpen)}
-              className="flex items-center gap-1 hover:text-slate-300 cursor-pointer"
+              className="flex items-center gap-1 hover:text-theme-primary cursor-pointer"
             >
               {isTagsOpen ? <ChevronDown className="w-3 h-3" /> : <ChevronRight className="w-3 h-3" />}
               {t.tags}
@@ -313,7 +313,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ onCloseMobile }) => {
           {isTagsOpen && (
             <div className="space-y-0.5">
               {tags.length === 0 && (
-                <div className="px-3 py-1.5 text-xs text-slate-600 italic">{t.noTags}</div>
+                <div className="px-3 py-1.5 text-xs text-theme-muted italic">{t.noTags}</div>
               )}
 
               {tags.map((tag) => (
@@ -321,13 +321,13 @@ export const Sidebar: React.FC<SidebarProps> = ({ onCloseMobile }) => {
                   key={tag.id}
                   className={`group flex items-center justify-between px-3 py-1.5 rounded-lg text-xs font-medium cursor-pointer transition ${
                     isSelected({ type: 'tag', tag: tag.name })
-                      ? 'bg-indigo-600/15 text-indigo-400 font-semibold'
-                      : 'text-slate-400 hover:bg-slate-800/50 hover:text-slate-200'
+                      ? 'bg-theme-accent-light text-theme-accent font-semibold'
+                      : 'text-theme-secondary hover:bg-theme-hover hover:text-theme-primary'
                   }`}
                   onClick={() => handleFilterClick({ type: 'tag', tag: tag.name })}
                 >
                   <div className="flex items-center gap-2 truncate">
-                    <TagIcon className="w-3.5 h-3.5 flex-shrink-0 text-slate-500" />
+                    <TagIcon className="w-3.5 h-3.5 flex-shrink-0 text-theme-muted" />
                     <span className="truncate">#{tag.name}</span>
                   </div>
                   <button
@@ -337,7 +337,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ onCloseMobile }) => {
                         deleteTag(tag.name);
                       }
                     }}
-                    className="opacity-0 group-hover:opacity-100 p-1 text-slate-500 hover:text-rose-400 transition cursor-pointer"
+                    className="opacity-0 group-hover:opacity-100 p-1 text-theme-muted hover:text-rose-400 transition cursor-pointer"
                   >
                     <Trash2 className="w-3 h-3" />
                   </button>
@@ -349,15 +349,15 @@ export const Sidebar: React.FC<SidebarProps> = ({ onCloseMobile }) => {
       </div>
 
       {/* Settings section in Sidebar */}
-      <div className="px-3 py-2 border-t border-slate-800/60 space-y-1">
+      <div className="px-3 py-2 border-t border-theme space-y-1">
         <button
           onClick={() => {
             setIsSettingsModalOpen(true);
             if (onCloseMobile) onCloseMobile();
           }}
-          className="w-full flex items-center gap-2.5 px-3 py-2 rounded-lg text-xs font-medium text-slate-400 hover:bg-slate-800/50 hover:text-slate-200 transition cursor-pointer"
+          className="w-full flex items-center gap-2.5 px-3 py-2 rounded-lg text-xs font-medium text-theme-secondary hover:bg-theme-hover hover:text-theme-primary transition cursor-pointer"
         >
-          <Settings className="w-4 h-4 text-indigo-400" />
+          <Settings className="w-4 h-4 text-theme-accent" />
           <span>{t.generalSettings}</span>
         </button>
 
@@ -366,19 +366,19 @@ export const Sidebar: React.FC<SidebarProps> = ({ onCloseMobile }) => {
             setIsSettingsOpen(true);
             if (onCloseMobile) onCloseMobile();
           }}
-          className="w-full flex items-center gap-2.5 px-3 py-2 rounded-lg text-xs font-medium text-slate-400 hover:bg-slate-800/50 hover:text-slate-200 transition cursor-pointer"
+          className="w-full flex items-center gap-2.5 px-3 py-2 rounded-lg text-xs font-medium text-theme-secondary hover:bg-theme-hover hover:text-theme-primary transition cursor-pointer"
         >
-          <Sparkles className="w-4 h-4 text-indigo-400" />
+          <Sparkles className="w-4 h-4 text-theme-accent" />
           <span>{t.aiSettings}</span>
         </button>
       </div>
 
       {/* Footer / Account & Sync Status */}
-      <div className="p-3 border-t border-slate-800/60 flex items-center justify-between text-xs text-slate-500">
+      <div className="p-3 border-t border-theme flex items-center justify-between text-xs text-theme-muted">
         <div className="flex items-center gap-2">
           {renderSyncBadge()}
         </div>
-        <div className="flex items-center gap-1 text-[11px] text-slate-600">
+        <div className="flex items-center gap-1 text-[11px] text-theme-muted">
           <span>v0.3.0</span>
         </div>
       </div>

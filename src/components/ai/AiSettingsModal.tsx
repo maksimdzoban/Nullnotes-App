@@ -92,18 +92,18 @@ export const AiSettingsModal: React.FC = () => {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/75 backdrop-blur-xs p-4">
-      <div className="w-full max-w-lg bg-[#131620] border border-slate-800 rounded-2xl shadow-2xl overflow-hidden text-slate-200">
+      <div className="w-full max-w-lg bg-theme-card border border-theme rounded-2xl shadow-2xl overflow-hidden text-theme-primary">
         {/* Header */}
-        <div className="flex items-center justify-between px-6 py-4 border-b border-slate-800/80 bg-[#10121a]">
+        <div className="flex items-center justify-between px-6 py-4 border-b border-theme bg-theme-secondary">
           <div className="flex items-center gap-2">
-            <div className="p-1.5 bg-indigo-600/20 text-indigo-400 rounded-lg">
+            <div className="p-1.5 bg-theme-accent-light text-theme-accent rounded-lg">
               <Sparkles className="w-4 h-4" />
             </div>
-            <h2 className="text-sm font-semibold text-slate-100">Налаштування AI (OpenRouter)</h2>
+            <h2 className="text-sm font-semibold text-theme-primary">Налаштування AI (OpenRouter)</h2>
           </div>
           <button
             onClick={() => setIsSettingsOpen(false)}
-            className="p-1 text-slate-400 hover:text-white rounded-md transition cursor-pointer"
+            className="p-1 text-theme-muted hover:text-theme-primary rounded-md transition cursor-pointer"
           >
             <X className="w-5 h-5" />
           </button>
@@ -112,11 +112,11 @@ export const AiSettingsModal: React.FC = () => {
         {/* Content */}
         <div className="p-6 space-y-4 max-h-[75vh] overflow-y-auto">
           {/* Security Notice */}
-          <div className="p-3.5 bg-amber-500/10 border border-amber-500/25 rounded-xl flex items-start gap-2.5 text-xs text-amber-300">
-            <AlertTriangle className="w-4 h-4 flex-shrink-0 mt-0.5 text-amber-400" />
+          <div className="p-3.5 bg-amber-500/10 border border-amber-500/25 rounded-xl flex items-start gap-2.5 text-xs text-amber-500">
+            <AlertTriangle className="w-4 h-4 flex-shrink-0 mt-0.5 text-amber-500" />
             <div className="space-y-1">
-              <p className="font-medium text-amber-200">Безпека вашого ключа (BYOK)</p>
-              <p className="text-[11px] text-amber-300/80 leading-relaxed">
+              <p className="font-medium">Безпека вашого ключа (BYOK)</p>
+              <p className="text-[11px] opacity-80 leading-relaxed">
                 Ключ зберігається лише локально у вашому браузері/пристрої та надсилається напряму до OpenRouter.
               </p>
             </div>
@@ -125,13 +125,13 @@ export const AiSettingsModal: React.FC = () => {
           {/* Model Selection & Search */}
           <div className="space-y-2">
             <div className="flex items-center justify-between">
-              <label className="text-xs font-medium text-slate-300">Модель штучного інтелекту</label>
+              <label className="text-xs font-medium text-theme-secondary">Модель штучного інтелекту</label>
               <div className="flex gap-1">
                 <button
                   type="button"
                   onClick={() => setModelFilter('free')}
                   className={`px-2 py-0.5 rounded text-[10px] font-medium transition cursor-pointer ${
-                    modelFilter === 'free' ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/30' : 'text-slate-400 hover:text-slate-200'
+                    modelFilter === 'free' ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30' : 'text-theme-muted hover:text-theme-primary'
                   }`}
                 >
                   Лише Free
@@ -140,7 +140,7 @@ export const AiSettingsModal: React.FC = () => {
                   type="button"
                   onClick={() => setModelFilter('all')}
                   className={`px-2 py-0.5 rounded text-[10px] font-medium transition cursor-pointer ${
-                    modelFilter === 'all' ? 'bg-indigo-500/20 text-indigo-300 border border-indigo-500/30' : 'text-slate-400 hover:text-slate-200'
+                    modelFilter === 'all' ? 'bg-theme-accent-light text-theme-accent border border-theme' : 'text-theme-muted hover:text-theme-primary'
                   }`}
                 >
                   Всі ({allModels.length})
@@ -150,13 +150,13 @@ export const AiSettingsModal: React.FC = () => {
 
             {/* Search Filter for models */}
             <div className="relative">
-              <Search className="w-3.5 h-3.5 absolute left-2.5 top-1/2 -translate-y-1/2 text-slate-500" />
+              <Search className="w-3.5 h-3.5 absolute left-2.5 top-1/2 -translate-y-1/2 text-theme-muted" />
               <input
                 type="text"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder="Пошук моделі (напр: free, gpt, claude, gemini)..."
-                className="w-full bg-[#181b26] border border-slate-700/70 rounded-lg pl-8 pr-3 py-1.5 text-xs text-slate-200 outline-none focus:border-indigo-500 transition"
+                className="w-full bg-theme-input border border-theme rounded-lg pl-8 pr-3 py-1.5 text-xs text-theme-primary outline-none focus:border-theme-accent transition"
               />
             </div>
 
@@ -164,16 +164,16 @@ export const AiSettingsModal: React.FC = () => {
             <select
               value={selectedModel}
               onChange={(e) => setSelectedModel(e.target.value)}
-              className="w-full bg-[#181b26] border border-slate-700 rounded-lg px-3 py-2 text-xs text-slate-200 outline-none focus:border-indigo-500 transition font-mono truncate"
+              className="w-full bg-theme-input border border-theme rounded-lg px-3 py-2 text-xs text-theme-primary outline-none focus:border-theme-accent transition font-mono truncate"
             >
               {!filteredModels.some(m => m.id === selectedModel) && (
-                <option value={selectedModel} className="bg-slate-900 font-sans">
+                <option value={selectedModel} className="bg-theme-card text-theme-primary font-sans">
                   {selectedModel} (Обрана модель)
                 </option>
               )}
 
               {filteredModels.map((m) => (
-                <option key={m.id} value={m.id} className="bg-slate-900 font-sans">
+                <option key={m.id} value={m.id} className="bg-theme-card text-theme-primary font-sans">
                   {m.category === 'free' ? '🎁 ' : '⚡ '} {m.name} ({m.id})
                 </option>
               ))}
@@ -183,18 +183,18 @@ export const AiSettingsModal: React.FC = () => {
           {/* API Key Input */}
           <div className="space-y-1.5 pt-1">
             <div className="flex items-center justify-between">
-              <label className="text-xs font-medium text-slate-300">OpenRouter API Key</label>
+              <label className="text-xs font-medium text-theme-secondary">OpenRouter API Key</label>
               <a
                 href="https://openrouter.ai/keys"
                 target="_blank"
                 rel="noreferrer"
-                className="flex items-center gap-1 text-[11px] text-indigo-400 hover:text-indigo-300 transition"
+                className="flex items-center gap-1 text-[11px] text-theme-accent hover:opacity-80 transition"
               >
                 Отримати безкоштовно <ExternalLink className="w-3 h-3" />
               </a>
             </div>
             <div className="relative">
-              <Key className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-slate-500" />
+              <Key className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-theme-muted" />
               <input
                 type="password"
                 value={inputKey}
@@ -203,7 +203,7 @@ export const AiSettingsModal: React.FC = () => {
                   setValStatus(null);
                 }}
                 placeholder="sk-or-v1-..."
-                className="w-full bg-[#181b26] border border-slate-700 rounded-lg pl-9 pr-3 py-2 text-xs text-slate-200 outline-none focus:border-indigo-500 transition font-mono"
+                className="w-full bg-theme-input border border-theme rounded-lg pl-9 pr-3 py-2 text-xs text-theme-primary outline-none focus:border-theme-accent transition font-mono"
               />
             </div>
           </div>
@@ -211,7 +211,7 @@ export const AiSettingsModal: React.FC = () => {
           {/* Validation Status message */}
           {valStatus && (
             <div className={`p-3 rounded-lg text-xs flex items-center gap-2 ${
-              valStatus.isError ? 'bg-rose-500/15 border border-rose-500/30 text-rose-300' : 'bg-emerald-500/15 border border-emerald-500/30 text-emerald-300'
+              valStatus.isError ? 'bg-rose-500/15 border border-rose-500/30 text-rose-400' : 'bg-emerald-500/15 border border-emerald-500/30 text-emerald-400'
             }`}>
               {valStatus.message}
             </div>
@@ -223,9 +223,9 @@ export const AiSettingsModal: React.FC = () => {
               type="button"
               onClick={handleValidate}
               disabled={isValidating || !inputKey.trim()}
-              className="flex-1 flex items-center justify-center gap-1.5 py-2 px-3 bg-slate-800 hover:bg-slate-700 disabled:opacity-50 text-slate-200 border border-slate-700 rounded-lg text-xs font-medium transition cursor-pointer"
+              className="flex-1 flex items-center justify-center gap-1.5 py-2 px-3 bg-theme-hover hover:bg-theme-card disabled:opacity-50 text-theme-primary border border-theme rounded-lg text-xs font-medium transition cursor-pointer"
             >
-              {isValidating ? <RefreshCw className="w-3.5 h-3.5 animate-spin" /> : <CheckCircle className="w-3.5 h-3.5 text-indigo-400" />}
+              {isValidating ? <RefreshCw className="w-3.5 h-3.5 animate-spin" /> : <CheckCircle className="w-3.5 h-3.5 text-theme-accent" />}
               Перевірити ключ
             </button>
 
@@ -243,7 +243,7 @@ export const AiSettingsModal: React.FC = () => {
             <button
               type="button"
               onClick={handleSave}
-              className="flex-1 py-2 px-3 bg-indigo-600 hover:bg-indigo-500 text-white rounded-lg text-xs font-semibold transition shadow-md shadow-indigo-600/20 cursor-pointer"
+              className="flex-1 py-2 px-3 bg-theme-accent hover:opacity-90 text-white rounded-lg text-xs font-semibold transition shadow-md cursor-pointer"
             >
               Зберегти
             </button>

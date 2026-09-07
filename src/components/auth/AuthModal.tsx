@@ -69,19 +69,19 @@ export const AuthModal: React.FC = () => {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-xs p-4">
-      <div className="w-full max-w-md bg-[#131620] border border-slate-800 rounded-2xl shadow-2xl overflow-hidden text-slate-200">
-        <div className="flex items-center justify-between px-6 py-4 border-b border-slate-800/80 bg-[#10121a]">
+      <div className="w-full max-w-md bg-theme-card border border-theme rounded-2xl shadow-2xl overflow-hidden text-theme-primary">
+        <div className="flex items-center justify-between px-6 py-4 border-b border-theme bg-theme-secondary">
           <div className="flex items-center gap-2">
-            <div className="p-1.5 bg-indigo-600/20 text-indigo-400 rounded-lg">
+            <div className="p-1.5 bg-theme-accent-light text-theme-accent rounded-lg">
               <UserIcon className="w-4 h-4" />
             </div>
-            <h2 className="text-sm font-semibold text-slate-100">
+            <h2 className="text-sm font-semibold text-theme-primary">
               {token ? 'Акаунт та синхронізація' : (mode === 'login' ? 'Вхід в акаунт' : 'Реєстрація')}
             </h2>
           </div>
           <button
             onClick={() => setIsAuthModalOpen(false)}
-            className="p-1 text-slate-400 hover:text-white rounded-md transition"
+            className="p-1 text-theme-muted hover:text-theme-primary rounded-md transition"
           >
             <X className="w-5 h-5" />
           </button>
@@ -90,21 +90,21 @@ export const AuthModal: React.FC = () => {
         <div className="p-6 space-y-5">
           {token && user ? (
             <div className="space-y-4">
-              <div className="p-4 bg-slate-800/40 border border-slate-700/50 rounded-xl space-y-2">
+              <div className="p-4 bg-theme-secondary border border-theme rounded-xl space-y-2">
                 <div className="flex items-center justify-between">
-                  <span className="text-xs text-slate-400">Користувач</span>
-                  <span className="text-xs font-semibold text-indigo-400 bg-indigo-500/10 px-2 py-0.5 rounded-full border border-indigo-500/20">
+                  <span className="text-xs text-theme-muted">Користувач</span>
+                  <span className="text-xs font-semibold text-theme-accent bg-theme-accent-light px-2 py-0.5 rounded-full border border-theme">
                     Підключено
                   </span>
                 </div>
-                <p className="text-sm font-medium text-slate-100">{user.name}</p>
-                <p className="text-xs text-slate-400">{user.email}</p>
+                <p className="text-sm font-medium text-theme-primary">{user.name}</p>
+                <p className="text-xs text-theme-muted">{user.email}</p>
               </div>
 
-              <div className="p-4 bg-slate-800/30 border border-slate-800 rounded-xl space-y-2 text-xs text-slate-400">
+              <div className="p-4 bg-theme-secondary/60 border border-theme rounded-xl space-y-2 text-xs text-theme-muted">
                 <div className="flex items-center justify-between">
                   <span>Статус синхронізації:</span>
-                  <span className="font-medium text-slate-200 capitalize">
+                  <span className="font-medium text-theme-primary capitalize">
                     {status === 'synced' ? 'Усе синхронізовано' : status === 'syncing' ? 'Синхронізація...' : status}
                   </span>
                 </div>
@@ -114,14 +114,14 @@ export const AuthModal: React.FC = () => {
                 </div>
                 <div className="flex items-center justify-between truncate">
                   <span>Сервер:</span>
-                  <span className="text-slate-300 font-mono text-[11px] truncate max-w-[200px]">{serverUrl}</span>
+                  <span className="text-theme-secondary font-mono text-[11px] truncate max-w-[200px]">{serverUrl}</span>
                 </div>
               </div>
 
               <div className="flex gap-2 pt-2">
                 <button
                   onClick={handleManualSync}
-                  className="flex-1 flex items-center justify-center gap-2 py-2 px-3 bg-indigo-600 hover:bg-indigo-500 text-white rounded-lg text-xs font-medium transition cursor-pointer"
+                  className="flex-1 flex items-center justify-center gap-2 py-2 px-3 bg-theme-accent hover:opacity-90 text-white rounded-lg text-xs font-medium transition cursor-pointer"
                 >
                   <RefreshCw className="w-3.5 h-3.5" />
                   Синхронізувати зараз
@@ -145,32 +145,32 @@ export const AuthModal: React.FC = () => {
 
               {mode === 'register' && (
                 <div className="space-y-1">
-                  <label className="text-xs font-medium text-slate-400">Ім'я</label>
+                  <label className="text-xs font-medium text-theme-muted">Ім'я</label>
                   <input
                     type="text"
                     required
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                     placeholder="Ваше ім'я"
-                    className="w-full bg-[#181b26] border border-slate-700 rounded-lg px-3 py-2 text-xs text-slate-200 outline-none focus:border-indigo-500 transition"
+                    className="w-full bg-theme-input border border-theme rounded-lg px-3 py-2 text-xs text-theme-primary outline-none focus:border-theme-accent transition"
                   />
                 </div>
               )}
 
               <div className="space-y-1">
-                <label className="text-xs font-medium text-slate-400">Email</label>
+                <label className="text-xs font-medium text-theme-muted">Email</label>
                 <input
                   type="email"
                   required
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="name@example.com"
-                  className="w-full bg-[#181b26] border border-slate-700 rounded-lg px-3 py-2 text-xs text-slate-200 outline-none focus:border-indigo-500 transition"
+                  className="w-full bg-theme-input border border-theme rounded-lg px-3 py-2 text-xs text-theme-primary outline-none focus:border-theme-accent transition"
                 />
               </div>
 
               <div className="space-y-1">
-                <label className="text-xs font-medium text-slate-400">Пароль</label>
+                <label className="text-xs font-medium text-theme-muted">Пароль</label>
                 <input
                   type="password"
                   required
@@ -178,7 +178,7 @@ export const AuthModal: React.FC = () => {
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="Мінімум 6 символів"
-                  className="w-full bg-[#181b26] border border-slate-700 rounded-lg px-3 py-2 text-xs text-slate-200 outline-none focus:border-indigo-500 transition"
+                  className="w-full bg-theme-input border border-theme rounded-lg px-3 py-2 text-xs text-theme-primary outline-none focus:border-theme-accent transition"
                 />
               </div>
 
@@ -186,9 +186,9 @@ export const AuthModal: React.FC = () => {
                 <button
                   type="button"
                   onClick={() => setIsServerSettingsOpen(!isServerSettingsOpen)}
-                  className="flex items-center gap-1.5 text-[11px] text-slate-400 hover:text-slate-200 cursor-pointer"
+                  className="flex items-center gap-1.5 text-[11px] text-theme-muted hover:text-theme-primary cursor-pointer"
                 >
-                  <Server className="w-3.5 h-3.5 text-indigo-400" />
+                  <Server className="w-3.5 h-3.5 text-theme-accent" />
                   <span>{isServerSettingsOpen ? 'Приховати адресу сервера' : 'Налаштувати сервер (Self-Host)'}</span>
                 </button>
 
@@ -199,7 +199,7 @@ export const AuthModal: React.FC = () => {
                       value={customServer}
                       onChange={(e) => setCustomServer(e.target.value)}
                       placeholder="http://192.168.0.245:3001"
-                      className="w-full bg-[#181b26] border border-slate-700 rounded-lg px-3 py-1.5 text-xs text-slate-200 outline-none font-mono"
+                      className="w-full bg-theme-input border border-theme rounded-lg px-3 py-1.5 text-xs text-theme-primary outline-none font-mono"
                     />
                   </div>
                 )}
@@ -208,7 +208,7 @@ export const AuthModal: React.FC = () => {
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full flex items-center justify-center gap-2 py-2.5 bg-indigo-600 hover:bg-indigo-500 disabled:opacity-50 text-white rounded-lg text-xs font-semibold transition shadow-md shadow-indigo-600/20 cursor-pointer"
+                className="w-full flex items-center justify-center gap-2 py-2.5 bg-theme-accent hover:opacity-90 disabled:opacity-50 text-white rounded-lg text-xs font-semibold transition shadow-md cursor-pointer"
               >
                 {loading ? (
                   <RefreshCw className="w-4 h-4 animate-spin" />
@@ -232,7 +232,7 @@ export const AuthModal: React.FC = () => {
                     setMode(mode === 'login' ? 'register' : 'login');
                     setError(null);
                   }}
-                  className="text-xs text-indigo-400 hover:underline cursor-pointer"
+                  className="text-xs text-theme-accent hover:underline cursor-pointer"
                 >
                   {mode === 'login'
                     ? 'Немає акаунта? Створити новий'

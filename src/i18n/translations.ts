@@ -68,6 +68,15 @@ export interface Translations {
   cancel: string;
   clear: string;
 
+  // Updates
+  appVersion: string;
+  checkForUpdates: string;
+  checkingUpdates: string;
+  updateAvailable: string;
+  latestVersionInstalled: string;
+  downloadUpdate: string;
+  updateDetails: string;
+
   // App Empty States
   noNoteSelected: string;
   selectNotePrompt: string;
@@ -174,6 +183,15 @@ export const translations: Record<Language, Translations> = {
     cancel: 'Скасувати',
     clear: 'Очистити',
 
+    // Updates
+    appVersion: 'Версія додатку',
+    checkForUpdates: 'Перевірити оновлення',
+    checkingUpdates: 'Перевірка...',
+    updateAvailable: 'Доступне оновлення',
+    latestVersionInstalled: 'Встановлено найновішу версію',
+    downloadUpdate: 'Завантажити та оновити',
+    updateDetails: 'Список змін',
+
     // App Empty States
     noNoteSelected: 'Нотатку не вибрано',
     selectNotePrompt: 'Створіть нову нотатку або оберіть існуючу зі списку ліворуч, щоб розпочати редагування.',
@@ -277,6 +295,15 @@ export const translations: Record<Language, Translations> = {
     save: 'Save',
     cancel: 'Cancel',
     clear: 'Clear',
+
+    // Updates
+    appVersion: 'App Version',
+    checkForUpdates: 'Check for Updates',
+    checkingUpdates: 'Checking...',
+    updateAvailable: 'Update Available',
+    latestVersionInstalled: 'Latest version is installed',
+    downloadUpdate: 'Download & Update',
+    updateDetails: 'Changelog',
 
     // App Empty States
     noNoteSelected: 'No note selected',

@@ -7,20 +7,32 @@
   --bg-primary: #0f1117;
   --bg-secondary: #161922;
   --bg-sidebar: #0d0f15;
+  --bg-card: #141722;
+  --bg-input: #181b26;
+  --bg-hover: rgba(255, 255, 255, 0.05);
   --border-color: rgba(51, 65, 85, 0.4);
+  --border-subtle: rgba(51, 65, 85, 0.2);
   --text-primary: #f1f5f9;
   --text-secondary: #94a3b8;
+  --text-muted: #64748b;
   --accent-color: #6366f1;
+  --accent-hover: #4f46e5;
+  --accent-light: rgba(99, 102, 241, 0.15);
 }
 
 [data-theme="oled"] {
   color-scheme: dark;
   --bg-primary: #000000;
-  --bg-secondary: #0a0a0a;
+  --bg-secondary: #080808;
   --bg-sidebar: #000000;
-  --border-color: rgba(38, 38, 38, 0.8);
+  --bg-card: #0c0c0c;
+  --bg-input: #121212;
+  --bg-hover: rgba(255, 255, 255, 0.07);
+  --border-color: #222222;
+  --border-subtle: #161616;
   --text-primary: #ffffff;
   --text-secondary: #a3a3a3;
+  --text-muted: #525252;
 }
 
 [data-theme="light"] {
@@ -28,26 +40,56 @@
   --bg-primary: #ffffff;
   --bg-secondary: #f8fafc;
   --bg-sidebar: #f1f5f9;
-  --border-color: rgba(226, 232, 240, 0.8);
+  --bg-card: #ffffff;
+  --bg-input: #f1f5f9;
+  --bg-hover: rgba(0, 0, 0, 0.04);
+  --border-color: #e2e8f0;
+  --border-subtle: #f1f5f9;
   --text-primary: #0f172a;
-  --text-secondary: #64748b;
+  --text-secondary: #475569;
+  --text-muted: #94a3b8;
 }
 
 [data-theme="sepia"] {
   color-scheme: light;
   --bg-primary: #fbf0d9;
-  --bg-secondary: #f4e4c1;
-  --bg-sidebar: #ebd8af;
-  --border-color: rgba(212, 191, 147, 0.6);
+  --bg-secondary: #f4e6c8;
+  --bg-sidebar: #eedbb7;
+  --bg-card: #fcf5e5;
+  --bg-input: #eedbb7;
+  --bg-hover: rgba(67, 52, 34, 0.06);
+  --border-color: #dfcaa2;
+  --border-subtle: #ebd8af;
   --text-primary: #433422;
-  --text-secondary: #78644e;
+  --text-secondary: #6e583f;
+  --text-muted: #998369;
 }
 
-[data-accent="emerald"] { --accent-color: #10b981; }
-[data-accent="amber"] { --accent-color: #f59e0b; }
-[data-accent="rose"] { --accent-color: #f43f5e; }
-[data-accent="sky"] { --accent-color: #0ea5e9; }
-[data-accent="indigo"] { --accent-color: #6366f1; }
+[data-accent="emerald"] {
+  --accent-color: #10b981;
+  --accent-hover: #059669;
+  --accent-light: rgba(16, 185, 129, 0.15);
+}
+[data-accent="amber"] {
+  --accent-color: #f59e0b;
+  --accent-hover: #d97706;
+  --accent-light: rgba(245, 158, 11, 0.15);
+}
+[data-accent="rose"] {
+  --accent-color: #f43f5e;
+  --accent-hover: #e11d48;
+  --accent-light: rgba(244, 63, 94, 0.15);
+}
+[data-accent="sky"] {
+  --accent-color: #0ea5e9;
+  --accent-hover: #0284c7;
+  --accent-light: rgba(14, 165, 233, 0.15);
+}
+[data-accent="indigo"] {
+  --accent-color: #6366f1;
+  --accent-hover: #4f46e5;
+  --accent-light: rgba(99, 102, 241, 0.15);
+}
 
 body {
   margin: 0;
@@ -57,7 +99,51 @@ body {
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   background-color: var(--bg-primary);
   color: var(--text-primary);
-  transition: background-color 0.2s ease, color 0.2s ease;
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+/* Dynamic theme classes for full UI */
+.bg-theme-primary { background-color: var(--bg-primary); }
+.bg-theme-secondary { background-color: var(--bg-secondary); }
+.bg-theme-sidebar { background-color: var(--bg-sidebar); }
+.bg-theme-card { background-color: var(--bg-card); }
+.bg-theme-input { background-color: var(--bg-input); }
+.bg-theme-hover { background-color: var(--bg-hover); }
+
+.text-theme-primary { color: var(--text-primary); }
+.text-theme-secondary { color: var(--text-secondary); }
+.text-theme-muted { color: var(--text-muted); }
+
+.border-theme { border-color: var(--border-color); }
+.border-theme-subtle { border-color: var(--border-subtle); }
+
+.bg-theme-accent { background-color: var(--accent-color); }
+.text-theme-accent { color: var(--accent-color); }
+.border-theme-accent { border-color: var(--accent-color); }
+.bg-theme-accent-light { background-color: var(--accent-light); }
+
+/* BlockNote theme adjustments */
+.bn-container {
+  background-color: transparent !important;
+  color: var(--text-primary) !important;
+  font-family: inherit !important;
+}
+
+.bn-editor {
+  background-color: transparent !important;
+  color: var(--text-primary) !important;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
+
+[data-theme="sepia"] .bn-container,
+[data-theme="sepia"] .bn-editor {
+  color: #433422 !important;
+}
+
+[data-theme="light"] .bn-container,
+[data-theme="light"] .bn-editor {
+  color: #0f172a !important;
 }
 
 /* Custom scrollbars */
@@ -71,10 +157,13 @@ body {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgba(148, 163, 184, 0.2);
+  background: var(--text-muted);
+  opacity: 0.2;
   border-radius: 9999px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(148, 163, 184, 0.4);
+  background: var(--text-secondary);
+  opacity: 0.4;
 }
+
